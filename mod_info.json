@@ -4,7 +4,7 @@
   "author": "Andrzej",
   "utility": "true",
   "version": "0.1.0",
-  "description": "Displays your commander name and level as Discord Rich Presence status.",
+  "description": "Displays your commander name, level, current credits, and your flagship name and class as a Discord Rich Presence status.",
   "gameVersion": "0.98a",
   "jars": ["jars/discord_presence.jar"],
   "modPlugin": "com.oddisz.discordpresence.DiscordPresenceModPlugin"
