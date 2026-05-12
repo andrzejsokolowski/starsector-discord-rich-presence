@@ -1,0 +1,61 @@
+================================================================
+  Discord Rich Presence for Starsector — Setup Guide
+================================================================
+
+STEP 1 — Create a Discord Application
+--------------------------------------
+1. Go to https://discord.com/developers/applications
+2. Click "New Application", give it a name (e.g. "Starsector")
+3. Copy the "Application ID" shown on the General Information page
+4. Open:  data/config/discord_presence_settings.json
+5. Replace  YOUR_DISCORD_APP_ID_HERE  with your Application ID (keep the quotes)
+
+   Example:
+     "applicationId": "1234567890123456789"
+
+
+STEP 2 — Add the Starsector API jar
+-------------------------------------
+Copy  starfarer.api.jar  from your Starsector install into:
+
+   libs/starsector/starfarer.api.jar
+
+Starsector install path (typical Windows):
+   C:\Program Files (x86)\Fractal Softworks\Starsector\starsector-core\starfarer.api.jar
+
+
+STEP 3 — Build
+---------------
+Option A (recommended — IntelliJ IDEA):
+  Open this folder as a Gradle project. IntelliJ downloads Gradle automatically,
+  then run the "jar" Gradle task (Gradle panel → Tasks → build → jar).
+
+Option B (Gradle on PATH):
+  1. Install Gradle: https://gradle.org/install/
+  2. Run in this folder:
+       gradle wrapper   ← only needed once, generates gradlew files
+       gradlew.bat jar
+
+Option C (quick script):
+  Run build.bat — it tries the wrapper first, then falls back to system Gradle.
+
+The compiled jar will appear at:  jars/discord_presence.jar
+
+
+STEP 4 — Install the mod
+--------------------------
+Copy the entire  starsector-discord-presence/  folder into your Starsector
+mods directory:
+
+   C:\Program Files (x86)\Fractal Softworks\Starsector\mods\
+
+Then launch Starsector, go to Mods, and enable "Discord Rich Presence".
+
+
+NOTES
+------
+- Discord must be running for the rich presence to appear.
+- The presence shows your commander's full name and level while in a campaign.
+- While in the main menu it shows "In the Main Menu".
+- The mod is safe to add/remove mid-campaign (it's utility-only, no saves).
+================================================================

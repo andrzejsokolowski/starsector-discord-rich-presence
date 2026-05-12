@@ -1,0 +1,90 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.oddisz'
+version = '0.1.0'
+
+// ── Starsector API jar ───────────────────────────────────────────────────────
+// Place starfarer.api.jar (and optionally starfarer_obf.jar) into:
+//   libs/starsector/
+// Typically found in your Starsector install under starsector-core/
+// ─────────────────────────────────────────────────────────────────────────────
+def starsectorLibs = fileTree(dir: 'libs/starsector', include: ['*.jar'])
+
+repositories {
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+}
+
+configurations {
+    // Declare a separate config for deps we want bundled into the fat jar.
+    // implementation.extendsFrom makes them available at compile + runtime too.
+    bundled
+    implementation.extendsFrom bundled
+}
+
+dependencies {
+    // Starsector API — compile-only (already on the game classpath at runtime)
+    compileOnly starsectorLibs
+
+    // log4j is a separate jar in the Starsector install (not inside starfarer.api.jar)
+    compileOnly 'log4j:log4j:1.2.17'
+
+    // Discord IPC — pure-Java, no native libs required
+    bundled 'com.github.jagrosh:DiscordIPC:master-SNAPSHOT'
+
+    // slf4j-nop: satisfies DiscordIPC's slf4j dependency and silently discards
+    // its log output (we use log4j directly for our own logging)
+    bundled 'org.slf4j:slf4j-api:1.7.36'
+    bundled 'org.slf4j:slf4j-nop:1.7.36'
+
+    // gson is a transitive dep of DiscordIPC but JitPack doesn't always resolve it —
+    // declare it explicitly so it's available at compile time and bundled in the jar
+    bundled 'com.google.code.gson:gson:2.10.1'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+// ── Fat jar ──────────────────────────────────────────────────────────────────
+// Bundles DiscordIPC + gson into a single jar dropped into jars/
+// ─────────────────────────────────────────────────────────────────────────────
+jar {
+    archiveFileName = 'discord_presence.jar'
+    destinationDirectory = file('jars')
+
+    // Our compiled classes MUST come first so that our custom WindowsPipe
+    // (which uses FileChannel instead of RandomAccessFile) shadows the one
+    // bundled inside DiscordIPC.  DuplicatesStrategy.EXCLUDE keeps the first
+    // occurrence it encounters, so order matters here.
+    from sourceSets.main.output
+    from configurations.bundled.collect { it.isDirectory() ? it : zipTree(it) }
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    exclude 'META-INF/*.SF'
+    exclude 'META-INF/*.DSA'
+    exclude 'META-INF/*.RSA'
+    exclude 'META-INF/MANIFEST.MF'
+
+    manifest {
+        attributes(
+            'Implementation-Title': 'Discord Rich Presence for Starsector',
+            'Implementation-Version': version
+        )
+    }
+}
+
+// Convenience task: build then report output location
+task buildMod(dependsOn: jar) {
+    doLast {
+        println ""
+        println "✓ Built: jars/discord_presence.jar"
+        println "  Copy the entire starsector-discord-presence/ folder into your"
+        println "  Starsector mods/ directory, then enable it in the launcher."
+        println ""
+    }
+}

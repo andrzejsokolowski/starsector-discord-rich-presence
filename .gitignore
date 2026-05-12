@@ -1,0 +1,16 @@
+# Gradle build output
+build/
+.gradle/
+
+# Starsector API jars — proprietary, copy from your own install
+# (starfarer.api.jar, starfarer_obf.jar, etc.)
+libs/starsector/
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+
+# OS noise
+.DS_Store
+Thumbs.db
