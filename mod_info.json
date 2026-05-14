@@ -1,7 +1,7 @@
 {
   "id": "discord_presence",
   "name": "Discord Rich Presence",
-  "author": "Andrzej",
+  "author": "Oddisz",
   "utility": "true",
   "version": "0.1.0",
   "description": "Displays your commander name, level, current credits, and your flagship name and class as a Discord Rich Presence status.",
