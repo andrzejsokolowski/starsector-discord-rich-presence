@@ -1,5 +1,6 @@
 {
   "masterVersionFile": "https://raw.githubusercontent.com/andrzejsokolowski/starsector-discord-rich-presence/main/discord_presence.version",
+  "changelogURL":"https://raw.githubusercontent.com/andrzejsokolowski/starsector-discord-rich-presence/main/changelog.txt",
   "modName": "Discord Rich Presence",
   "modThreadId": 35392,
   "modVersion": {
