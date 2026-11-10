@@ -88,3 +88,45 @@ task buildMod(dependsOn: jar) {
         println ""
     }
 }
+
+// -- Release ZIP for mod managers ---------------------------------------------
+// One top folder, DiscordRichPresence/, with only what the game loads plus the
+// player setup guide. The jar is tracked in Git: run `gradle jar` after a source
+// change. releaseZip does not rebuild it, because DiscordIPC is a master-SNAPSHOT
+// dependency and a rebuild can pull a different library version.
+def releaseFiles = copySpec {
+    from(projectDir) {
+        include 'mod_info.json', 'discord_presence.version', 'icon.png', 'SETUP.txt'
+        include 'data/**', 'jars/discord_presence.jar'
+    }
+}
+
+// A UTF-8 BOM breaks every Starsector JSON and CSV.
+tasks.register('checkReleaseFiles') {
+    doLast {
+        def problems = []
+        fileTree(projectDir) { include 'mod_info.json', '*.version', 'data/**/*.json', 'data/**/*.csv' }.each { f ->
+            def b = f.bytes
+            if (b.length >= 3 && (b[0] & 0xFF) == 0xEF && (b[1] & 0xFF) == 0xBB && (b[2] & 0xFF) == 0xBF)
+                problems << "UTF-8 BOM in ${projectDir.toPath().relativize(f.toPath())}"
+        }
+        if (!file('icon.png').isFile()) problems << 'icon.png is missing'
+        if (!file('jars/discord_presence.jar').isFile()) problems << 'jars/discord_presence.jar is missing'
+        if (problems) throw new GradleException("Release files are not ready:\n  " + problems.join('\n  '))
+        logger.lifecycle('Release files verified')
+    }
+}
+
+// Sync, not Copy: files that no longer ship must not linger in the staging folder.
+tasks.register('stageRelease', Sync) {
+    dependsOn tasks.named('checkReleaseFiles')
+    with releaseFiles
+    into layout.projectDirectory.dir('DiscordRichPresence')
+}
+
+tasks.register('releaseZip', Zip) {
+    dependsOn tasks.named('stageRelease')
+    destinationDirectory = layout.projectDirectory
+    archiveFileName = 'DiscordRichPresence.zip'
+    into('DiscordRichPresence') { with releaseFiles }
+}

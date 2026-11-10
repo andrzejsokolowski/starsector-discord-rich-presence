@@ -1,3 +1,7 @@
+Version 1.0.1 (2026-11-10)
+- New gold icon in mod managers (TriOS).
+- Mod managers and Version Checker can now find updates and download them directly.
+
 Version 1.0.0 (2026-05-14)
 - Version checker support, mod icon and the forum thread link.
 

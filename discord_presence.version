@@ -6,6 +6,8 @@
   "modVersion": {
     "major": "1",
     "minor": "0",
-    "patch": "0"
-  }
+    "patch": "1"
+  },
+  "starsectorVersion": "0.98a",
+  "directDownloadURL": "https://github.com/andrzejsokolowski/starsector-discord-rich-presence/releases/latest/download/DiscordRichPresence.zip"
 }

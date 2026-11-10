@@ -28,5 +28,8 @@ small quota that runs out. The workspace `AGENTS.md` has the full routine.
   `jars/discord_presence.jar`. Uses the vendored jagrosh `discordipc` library.
 - Build: `build.bat` or Gradle `jar` (see `SETUP.txt`). `libs/starsector/` holds the game's API
   jars and is ignored by Git: never commit them.
+- Release ZIP: `gradle releaseZip` (system Gradle, no wrapper jar) writes `DiscordRichPresence.zip`
+  with one top folder `DiscordRichPresence/`. It ships the tracked jar and does not rebuild it.
+  Tags have no "v" prefix (`1.0.1`).
 - The player sets their own Discord application id in `data/config/discord_presence_settings.json`.
 - Forum topic 35392 in `discord_presence.version`.
