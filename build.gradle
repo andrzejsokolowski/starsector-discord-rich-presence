@@ -6,11 +6,10 @@ group = 'com.oddisz'
 version = '0.1.0'
 
 // ── Starsector API jar ───────────────────────────────────────────────────────
-// Place starfarer.api.jar (and optionally starfarer_obf.jar) into:
-//   libs/starsector/
-// Typically found in your Starsector install under starsector-core/
+// starsectorPath (gradle.properties) points at the game install; the API jar is
+// read from its starsector-core/ folder.
 // ─────────────────────────────────────────────────────────────────────────────
-def starsectorLibs = fileTree(dir: 'libs/starsector', include: ['*.jar'])
+def starsectorLibs = fileTree(dir: "${starsectorPath}/starsector-core", include: ['starfarer.api.jar'])
 
 repositories {
     mavenCentral()

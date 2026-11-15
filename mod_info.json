@@ -3,11 +3,11 @@
   "name": "Discord Rich Presence",
   "author": "Oddisz",
   "utility": "true",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "modThreadId": "35392",
   "updateCheckURL": "https://raw.githubusercontent.com/andrzejsokolowski/starsector-discord-rich-presence/main/discord_presence.version",
   "description": "Displays your commander name, level, current credits, and your flagship name and class as a Discord Rich Presence status.",
-  "gameVersion": "0.98a",
+  "gameVersion": "0.98.5a-RC4",
   "jars": ["jars/discord_presence.jar"],
   "modPlugin": "com.oddisz.discordpresence.DiscordPresenceModPlugin",
   "logo": "icon.png"

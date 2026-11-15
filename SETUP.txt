@@ -14,14 +14,11 @@ STEP 1 — Create a Discord Application
      "applicationId": "1234567890123456789"
 
 
-STEP 2 — Add the Starsector API jar
--------------------------------------
-Copy  starfarer.api.jar  from your Starsector install into:
-
-   libs/starsector/starfarer.api.jar
-
-Starsector install path (typical Windows):
-   C:\Program Files (x86)\Fractal Softworks\Starsector\starsector-core\starfarer.api.jar
+STEP 2 — Point the build at your game
+--------------------------------------
+Set starsectorPath in gradle.properties to your Starsector install folder
+(for example D:/Games/StarSector0985). The build reads starfarer.api.jar from its
+starsector-core folder.
 
 
 STEP 3 — Build
